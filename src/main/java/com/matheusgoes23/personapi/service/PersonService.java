@@ -1,13 +1,13 @@
 package com.matheusgoes23.personapi.service;
 
-import com.matheusgoes23.personapi.dto.response.MessageResponseDTO;
 import com.matheusgoes23.personapi.dto.request.PersonDTO;
+import com.matheusgoes23.personapi.dto.response.MessageResponseDTO;
 import com.matheusgoes23.personapi.entity.Person;
+import com.matheusgoes23.personapi.exception.PersonNotFoundException;
 import com.matheusgoes23.personapi.mapper.PersonMapper;
 import com.matheusgoes23.personapi.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,8 +36,16 @@ public class PersonService {
 
     public List<PersonDTO> listAll() {
         List<Person> allPeople = personRepository.findAll();
+
         return allPeople.stream()
                 .map(personMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+
+        return personMapper.toDTO(person);
     }
 }

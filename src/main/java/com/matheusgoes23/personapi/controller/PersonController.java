@@ -1,7 +1,8 @@
 package com.matheusgoes23.personapi.controller;
 
-import com.matheusgoes23.personapi.dto.response.MessageResponseDTO;
 import com.matheusgoes23.personapi.dto.request.PersonDTO;
+import com.matheusgoes23.personapi.dto.response.MessageResponseDTO;
+import com.matheusgoes23.personapi.exception.PersonNotFoundException;
 import com.matheusgoes23.personapi.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,12 @@ public class PersonController {
     }
 
     @GetMapping
-    public List<PersonDTO> listAll(){
+    public List<PersonDTO> listAll() {
         return personService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
+        return personService.findById(id);
     }
 }
