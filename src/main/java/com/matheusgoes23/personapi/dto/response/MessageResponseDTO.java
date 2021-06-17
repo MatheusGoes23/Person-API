@@ -1,4 +1,4 @@
-package com.matheusgoes23.personapi.dto;
+package com.matheusgoes23.personapi.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
